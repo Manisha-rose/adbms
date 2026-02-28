@@ -1,0 +1,61 @@
+1. List all invoice items, avoid duplicates.
+mysql> select * from invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    102 | 1002 |        1 |
+|    107 | 1007 |        3 |
+|    105 | 1005 |        1 |
+|    105 | 1005 |        4 |
++--------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select distinct inv_id from invoice_item;
++--------+
+| inv_id |
++--------+
+|    102 |
+|    105 |
+|    107 |
++--------+
+3 rows in set (0.00 sec)
+
+
+2. List the customer details who not live in ‘Wayanad’
+mysql> select * from employee where city <> "Wayanad";
++------+---------+-----------+------+----------+
+| SSN  | name    | city      | dob  | adhar_no |
++------+---------+-----------+------+----------+
+| 1001 | Manisha | Calicut   | 1997 | 65441122 |
+| 1002 | Nila    | Thrissur  | 2001 | 65771255 |
+| 1004 | Ren     | Ernakulam | 2002 | 54628541 |
++------+---------+-----------+------+----------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
+3. Display the customer details sorted in ascending by city and descending by names.
+mysql> select * from customer order by city asc, name desc;
++----+---------+-------------------+-----------+------------+
+| id | name    | address           | city      | ph_no      |
++----+---------+-------------------+-----------+------------+
+|  7 | Meera   | Dew villa         | Kochi     | 7521468952 |
+|  6 | Mani    | Galaxy apartments | kochi     | 9847435991 |
+|  2 | Manisha | SBI colony        | Kozhikode | 9034521248 |
+|  5 | Teena   | Lotus villa       | Thrissur  | 8547654856 |
++----+---------+-------------------+-----------+------------+
+4 rows in set (0.00 sec)
+
+
+4. Find the customer names who have ‘e’ or ‘a’ in them and at least 3 characters in length.
+mysql> select name from customer where name like '%e%' or name like '%a%' and name like '___%';
++---------+
+| name    |
++---------+
+| Manisha |
+| Teena   |
+| Mani    | 
+| Meera   |
++---------+
+4 rows in set (0.00 sec)
+
