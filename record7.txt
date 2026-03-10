@@ -1,0 +1,62 @@
+OPTIMIZING DATABASE: (JOINS) 
+1)List the product name and quantity of invoice items. 
+mysql> select * from Product;
++------+----------+--------+
+| pid  | pname    | price  |
++------+----------+--------+
+| 1001 | Apple    | 255.00 |
+| 1002 | Biscuit  |  76.50 |
+| 1004 | cake     | 204.00 |
+| 1005 | notebook |  10.20 |
+| 1007 | Pencil   |  90.00 |
+| 1008 | Bottle   | 200.00 |
++------+----------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    102 | 1002 |        1 |
+|    107 | 1007 |        3 |
+|    105 | 1005 |        1 |
+|    105 | 1005 |        4 |
++--------+------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select Product.pname,invoice_item.quantity from Product inner join invoice_item on Product.pid= invoice_item.pid;
++----------+----------+
+| pname    | quantity |
++----------+----------+
+| Biscuit  |        1 |
+| Pencil   |        3 |
+| notebook |        1 |
+| notebook |        4 |
++----------+----------+
+4 rows in set (0.01 sec)
+
+2)Display the customer name, product name, invoice date of purchased item ‘pen’. 
+mysql> select customer.name,Product.pname from customer inner join invoice_master on customer.id = invoice_master.cust_id inner join invoice_item on invoice_master.inv_id = invoice_item.inv_id inner join Product on invoice_item.pid = Product.pid where Product.pname = "pen";
++------+-------+
+| name | pname |
++------+-------+
+| Mani | pen   |
++------+-------+
+1 row in set (0.00 sec)
+
+
+3)Display all customer details and invoice details must include customer has not
+purchased items.
+mysql> select customer.id,customer.name,invoice_master.inv_id from customer left outer join invoice_master on customer.id = invoice_master.cust_id;
++----+---------+--------+
+| id | name    | inv_id |
++----+---------+--------+
+|  2 | Manisha |    102 |
+|  5 | Teena   |    105 |
+|  6 | Mani    |    106 |
+|  7 | Meera   |    107 |
+|  8 | Liya    |   NULL |
++----+---------+--------+
+5 rows in set (0.00 sec)
+
+
