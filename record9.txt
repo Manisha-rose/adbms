@@ -1,0 +1,57 @@
+OPTIMIZING DATABASE: (Using Set, arithmetic, logical and special operators) 
+1. Display customer details who doesn’t have phone number and lives in ‘Calicut’ city (use logical operators)
+mysql> select * from customer;
++----+---------+-------------------+-----------+------------+
+| id | name    | address           | city      | ph_no      |
++----+---------+-------------------+-----------+------------+
+|  1 | Ravi    | Greenvilla        | Calicut   | NULL       |
+|  2 | Manisha | SBI colony        | Kozhikode | 9034521248 |
+|  5 | Teena   | Lotus villa       | Thrissur  | 8547654856 |
+|  6 | Mani    | Galaxy apartments | kochi     | 9847435991 |
+|  7 | Meera   | Dew villa         | Kochi     | 7521468952 |
+|  8 | Liya    | St.Mounthill      | kochi     | 7845130259 |
++----+---------+-------------------+-----------+------------+
+
+mysql> select * from customer where ph_no is null and city = "Calicut";
++----+------+------------+---------+-------+
+| id | name | address    | city    | ph_no |
++----+------+------------+---------+-------+
+|  1 | Ravi | Greenvilla | Calicut | NULL  |
++----+------+------------+---------+-------+
+1 row in set (0.00 sec)
+
+
+2. List the product names if it finds any records in the invoice items table has quantity =3 (use special operators)
+mysql> select * from Product;
++------+----------+--------+
+| pid  | pname    | price  |
++------+----------+--------+
+| 1001 | Apple    | 255.00 |
+| 1002 | Biscuit  |  76.50 |
+| 1004 | cake     | 204.00 |
+| 1005 | notebook |  10.20 |
+| 1006 | pen      |   5.00 |
+| 1007 | Pencil   |  90.00 |
+| 1008 | Bottle   | 200.00 |
++------+----------+--------+
+
+mysql> select * from invoice_item;
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|    102 | 1002 |        1 |
+|    107 | 1007 |        3 |
+|    105 | 1005 |        1 |
+|    105 | 1005 |        4 |
+|    106 | 1006 |        2 |
++--------+------+----------+
+
+mysql> select pname from Product where pid in (select pid from invoice_item where quantity = 3);
++--------+
+| pname  |
++--------+
+| Pencil |
++--------+
+1 row in set (0.00 sec)
+
+
