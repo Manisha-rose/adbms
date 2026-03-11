@@ -1,0 +1,36 @@
+ACCESSING DATABASES: (VIEWS) 
+1)1.Create a view for customers who have purchased products.
+mysql> create view purchases as select * from customer where id in(select cust_id from invoice_master);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from purchases;
++----+---------+-------------------+-----------+------------+
+| id | name    | address           | city      | ph_no      |
++----+---------+-------------------+-----------+------------+
+|  2 | Manisha | SBI colony        | Kozhikode | 9034521248 |
+|  5 | Teena   | Lotus villa       | Thrissur  | 8547654856 |
+|  6 | Mani    | Galaxy apartments | kochi     | 9847435991 |
+|  7 | Meera   | Dew villa         | Kochi     | 7521468952 |
++----+---------+-------------------+-----------+------------+
+4 rows in set (0.00 sec)
+
+
+2)Create a view for invoice products[cname, , inv_id, product_id, quantity]
+
+mysql> create view invoice_products as select customer.name as cname, invoice_item.inv_id, invoice_item.pid, invoice_item.quantity from customer join invoice_master on customer.id=invoice_master.cust_id join invoice_item on invoice_master.inv_id=invoice_item.inv_id;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from invoice_products;
++---------+--------+------+----------+
+| cname   | inv_id | pid  | quantity |
++---------+--------+------+----------+
+| Manisha |    102 | 1002 |        1 |
+| Teena   |    105 | 1005 |        4 |
+| Teena   |    105 | 1005 |        1 |
+| Mani    |    106 | 1006 |        2 |
+| Meera   |    107 | 1007 |        3 |
++---------+--------+------+----------+
+5 rows in set (0.00 sec)
+
+
+
