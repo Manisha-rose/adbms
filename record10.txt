@@ -1,0 +1,56 @@
+PL/SQL PROGRAMS (STORED PROCEDURES)
+1. Create a procedure to find greatest of 3 numbers. 
+mysql> delimiter //
+mysql> create procedure greatest(a int,b int,c int)
+    -> begin
+    -> declare x,y,z int;
+    -> set x=a;
+    -> set y=b;
+    -> set z=c;
+    ->   if x>y and x>z then
+    ->     select x as 'highest num';
+    ->   elseif y>x and y>z then
+    ->     select y as 'highest num';
+    ->   else
+    ->     select z as 'highest num';
+    ->   end if;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call greatest(7,5,3) //
++-------------+
+| highest num |
++-------------+
+|           7 |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+2.Create a procedure to display invoice details of a particular customer.
+mysql> delimiter /
+mysql> create procedure cust_details(id int)
+    -> begin
+    ->   select customer.name as customer_name,
+    ->          invoice_master.inv_id as invoice_id,
+    ->          invoice_master.inv_date as invoice_date,
+    ->          Product.pname as product_name,
+    ->          invoice_item.quantity as Qty,
+    ->          Product.price as Prdt_price from customer join invoice_master
+    ->          on customer.id = invoice_master.cust_id join invoice_item
+    ->          on invoice_master.inv_id = invoice_item.inv_id join Product
+    ->          on invoice_item.pid = Product.pid where customer.id = id;
+    -> end /
+Query OK, 0 rows affected (0.00 sec)
+mysql> call cust_details(7)/
++---------------+------------+--------------+--------------+------+------------+
+| customer_name | invoice_id | invoice_date | product_name | Qty  | Prdt_price |
++---------------+------------+--------------+--------------+------+------------+
+| Meera         |        107 | 2026-02-04   | Pencil       |    3 |      90.00 |
++---------------+------------+--------------+--------------+------+------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
