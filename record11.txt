@@ -1,0 +1,32 @@
+mysql> delimiter /
+mysql> create function price_range(price int)
+    -> returns varchar(20)
+    -> deterministic
+    -> begin
+    ->   declare price_range varchar(20);
+    ->   if price<=5 then 
+    ->   set price_range='low';
+    ->   elseif 
+    ->      price>5 and price<=50 then
+    ->   set price_range='medium';
+    ->   elseif price>50 then
+    ->   set price_range='high';
+    ->   end if;
+    -> return(price_range);
+    -> end /
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select pid,pname,price,price_range(price) from Product; /
++------+----------+--------+--------------------+
+| pid  | pname    | price  | price_range(price) |
++------+----------+--------+--------------------+
+| 1001 | Apple    | 255.00 | high               |
+| 1002 | Biscuit  |  76.50 | high               |
+| 1004 | cake     | 204.00 | high               |
+| 1005 | notebook |  10.20 | medium             |
+| 1006 | pen      |   5.00 | low                |
+| 1007 | Pencil   |  90.00 | high               |
+| 1008 | Bottle   | 200.00 | high               |
++------+----------+--------+--------------------+
+7 rows in set (0.00 sec)
+
