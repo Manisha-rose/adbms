@@ -1,0 +1,33 @@
+
+PL/SQL PROGRAMS – TRIGGERS 
+mysql> create trigger insert_trig
+    -> before insert
+    -> on Product for each row
+    -> begin
+    -> if new.price<5 then 
+    -> set new.price=10;
+    -> end if;
+    -> end /
+Query OK, 0 rows affected (0.01 sec)
+mysql> insert into Product values(1003,"candy",3)/
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from Product/
++------+----------+--------+
+| pid  | pname    | price  |
++------+----------+--------+
+|  105 | Sugar    |  50.00 |
+| 1001 | Apple    | 255.00 |
+| 1002 | Biscuit  |  76.50 |
+| 1003 | candy    |  10.00 |
+| 1004 | cake     | 204.00 |
+| 1005 | notebook |  10.20 |
+| 1006 | pen      |   5.00 |
+| 1007 | Pencil   |  90.00 |
+| 1008 | Bottle   | 200.00 |
++------+----------+--------+
+9 rows in set (0.00 sec)
+
+mysql> 
+
+
