@@ -1,0 +1,137 @@
+NoSQL – CRUD
+1. Write a MongoDB query to create an INVOICE database and collections (CUSTOMER,
+PRODUCT) and its corresponding documents.
+test> use invoice
+switched to db invoice
+invoice> db.createCollection("Customer")
+{ ok: 1 }
+invoice> show collections
+Customer
+invoice> db.Customer.insert({"Cust_id" : "101","Cust_name" : "Manisha","Address" : "Kozhikode", "Age":"28","Ph_no":"9037434398"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7a91e70c1de5c05c59f36') }
+}
+invoice> db.Customer.insert({"Cust_id":"102", "Cust_name":"Riya", "Address" : "Thrissur", "Age":"20","Ph_no":"9874652130"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7a99f70c1de5c05c59f37') }
+}
+invoice> db.Customer.insert({"Cust_id":"103", "Cust_name":"Ravi", "Address" : "Calicut", "Age":"20","Ph_no":"8745012468"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7a9d670c1de5c05c59f38') }
+}
+invoice> db.createCollection("Product")
+{ ok: 1 }
+invoice> show collections
+Customer
+Product
+invoice> db.Product.insert({"Pid":"121","P_name":"Pen","Price":"10"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7abb570c1de5c05c59f39') }
+}
+invoice> db.Product.insert({"Pid":"122","P_name":"Pencil","Price":"5"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7abcc70c1de5c05c59f3a') }
+}
+invoice> db.Product.insert({"Pid":"123","P_name":"Notebook","Price":"40"})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69b7abe570c1de5c05c59f3b') }
+}
+
+
+2. Write a MongoDB query to find all documents from the collection CUSTOMER 
+invoice> db.Customer.find()
+[
+  {
+    _id: ObjectId('69b7a91e70c1de5c05c59f36'),
+    Cust_id: '101',
+    Cust_name: 'Manisha',
+    Address: 'Kozhikode',
+    Age: '28',
+    Ph_no: '9037434398'
+  },
+  {
+    _id: ObjectId('69b7a99f70c1de5c05c59f37'),
+    Cust_id: '102',
+    Cust_name: 'Riya',
+    Address: 'Thrissur',
+    Age: '20',
+    Ph_no: '9874652130'
+  },
+  {
+    _id: ObjectId('69b7a9d670c1de5c05c59f38'),
+    Cust_id: '103',
+    Cust_name: 'Ravi',
+    Address: 'Calicut',
+    Age: '20',
+    Ph_no: '8745012468'
+  }
+]
+
+
+ 3. Write a MongoDB query to update the Address in the collection CUSTOMER. 
+ invoice> db.Customer.update({'Address':'Calicut'},{$set:{'Address':'Ernakulam'}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+invoice> db.Customer.find()
+[
+  {
+    _id: ObjectId('69b7a91e70c1de5c05c59f36'),
+    Cust_id: '101',
+    Cust_name: 'Manisha',
+    Address: 'Kozhikode',
+    Age: '28',
+    Ph_no: '9037434398'
+  },
+  {
+    _id: ObjectId('69b7a99f70c1de5c05c59f37'),
+    Cust_id: '102',
+    Cust_name: 'Riya',
+    Address: 'Thrissur',
+    Age: '20',
+    Ph_no: '9874652130'
+  },
+  {
+    _id: ObjectId('69b7a9d670c1de5c05c59f38'),
+    Cust_id: '103',
+    Cust_name: 'Ravi',
+    Address: 'Ernakulam',
+    Age: '20',
+    Ph_no: '8745012468'
+  }
+]
+
+
+ 4. Write a MongoDB query to delete the first matched document whose city is “Thrissur”.
+ invoice> db.Customer.deleteOne({"Address":"Thrissur"})
+{ acknowledged: true, deletedCount: 1 }
+invoice> db.Customer.find()
+[
+  {
+    _id: ObjectId('69b7a91e70c1de5c05c59f36'),
+    Cust_id: '101',
+    Cust_name: 'Manisha',
+    Address: 'Kozhikode',
+    Age: '28',
+    Ph_no: '9037434398'
+  },
+  {
+    _id: ObjectId('69b7a9d670c1de5c05c59f38'),
+    Cust_id: '103',
+    Cust_name: 'Ravi',
+    Address: 'Ernakulam',
+    Age: '20',
+    Ph_no: '8745012468'
+  }
+]
+
