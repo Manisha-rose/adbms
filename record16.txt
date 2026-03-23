@@ -1,0 +1,114 @@
+AGGREGATE FUNCTIONS AND REGULAR EXPRESSIONS
+1. Write a MongoDB query to sort customer details in ascending order of their name. 
+invoice> db.Customer.find().sort({Cust_name:1})
+[
+  {
+    _id: ObjectId('69b8ee3ebe5c38f0d0c59f35'),
+    Cust_id: '102',
+    Cust_name: 'Levi',
+    Address: 'Trivandrum',
+    Ph_no: '9874510364'
+  },
+  {
+    _id: ObjectId('69b7a91e70c1de5c05c59f36'),
+    Cust_id: '101',
+    Cust_name: 'Manisha',
+    Address: 'Kozhikode',
+    Age: '28',
+    Ph_no: '9037434398'
+  },
+  {
+    _id: ObjectId('69b7a9d670c1de5c05c59f38'),
+    Cust_id: '103',
+    Cust_name: 'Ravi',
+    Address: 'Ernakulam',
+    Age: '20',
+    Ph_no: '8745012468'
+  }
+]
+
+2. Write a MongoDB query to count number of customers in each city. 
+invoice> db.Customer.aggregate([{$group:{_id: "$Address",total:{$sum:1}}}])
+[
+  { _id: 'Thrissur', total: 2 },
+  { _id: 'Ernakulam', total: 1 },
+  { _id: 'Trivandrum', total: 1 },
+  { _id: 'Kozhikode', total: 1 }
+]
+
+
+ 3. Write a MongoDB query to find minimum and maximum age in each city. 
+ 
+ invoice> db.Customer.aggregate([{$group:{_id:"$Address",max_age:{$max:"$Age"},min_age:{$min:"$Age"}}}])
+[
+  { _id: 'Ernakulam', max_age: 20, min_age: 20 },
+  { _id: 'Trivandrum', max_age: 25, min_age: 25 },
+  { _id: 'Kozhikode', max_age: 28, min_age: 28 },
+  { _id: 'Thrissur', max_age: 23, min_age: 21 }
+]
+
+4. Write a MongoDB query using the $match stage to retrieve all customer documents whose
+customer_name starts with the letter “M”.
+
+invoice> db.Customer.aggregate([{ $match:{Cust_name:{ $regex:"^M"}}}])
+[
+  {
+    _id: ObjectId('69b7a91e70c1de5c05c59f36'),
+    Cust_id: 101,
+    Cust_name: 'Manisha',
+    Address: 'Kozhikode',
+    Age: 28,
+    Ph_no: Long('9037434398')
+  },
+  {
+    _id: ObjectId('69b8f8f8be5c38f0d0c59f36'),
+    Cust_id: 104,
+    Cust_name: 'Meera',
+    Address: 'Thrissur',
+    Age: 21,
+    Ph_no: Long('7845064211')
+  }
+]
+
+
+5. Write a query using $lookup to join CUSTOMER and PRODUCT collections and display only
+customer name, product name, and price.
+invoice> db.Customer.aggregate([
+... {
+...   $lookup:{
+...      from:"Product",
+...      localField:"product_id",
+...      foreignField:"product_id",
+...      as:"Product_details"
+...    }
+...  },
+...  { $unwind:"$Product_details"},
+...  { $project:{
+...               _id:0,
+...               Customer_name:"$Cust_name",
+...              Product_name:"$Product_details.P_name",
+...              Price:"$Product_details.Price"
+...         }
+...  } ])
+... 
+[
+  { Customer_name: 'Manisha', Product_name: 'Pen', Price: 10 },
+  { Customer_name: 'Manisha', Product_name: 'Pencil', Price: 5 },
+  { Customer_name: 'Manisha', Product_name: 'Notebook', Price: 40 },
+  { Customer_name: 'Ravi', Product_name: 'Pen', Price: 10 },
+  { Customer_name: 'Ravi', Product_name: 'Pencil', Price: 5 },
+  { Customer_name: 'Ravi', Product_name: 'Notebook', Price: 40 },
+  { Customer_name: 'Levi', Product_name: 'Pen', Price: 10 },
+  { Customer_name: 'Levi', Product_name: 'Pencil', Price: 5 },
+  { Customer_name: 'Levi', Product_name: 'Notebook', Price: 40 },
+  { Customer_name: 'Meera', Product_name: 'Pen', Price: 10 },
+  { Customer_name: 'Meera', Product_name: 'Pencil', Price: 5 },
+  { Customer_name: 'Meera', Product_name: 'Notebook', Price: 40 },
+  { Customer_name: 'Arjun', Product_name: 'Pen', Price: 10 },
+  { Customer_name: 'Arjun', Product_name: 'Pencil', Price: 5 },
+  { Customer_name: 'Arjun', Product_name: 'Notebook', Price: 40 }
+]
+
+
+
+  
