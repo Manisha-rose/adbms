@@ -33,6 +33,15 @@ invoice> db.getUser("Customer1")
 
 
 3. Write a MongoDB query to restore a particular database or a collection. 
+mongodump --db bookreview
+2026-03-23T11:26:56.975+0530	writing bookreview.book to dump/bookreview/book.bson
+2026-03-23T11:26:56.975+0530	writing bookreview.user to dump/bookreview/user.bson
+2026-03-23T11:26:56.976+0530	done dumping bookreview.book (6 documents)
+2026-03-23T11:26:56.977+0530	done dumping bookreview.user (4 documents)
+
+mongosh
+use bookreview
+switched to db bookreview
 
 bookreview> db.book.drop()
 true
